@@ -1,11 +1,22 @@
-listaPacientes = PacienteDAO.getPaciente(this);
-        if(listaPacientes.size() == 0){
-            Paciente obj = new Paciente("Lista vazia...", "", "", "", "");
-            listaPacientes.add(obj);
-            lvPacientes.setEnabled(false);
-        }else{
-            lvPacientes.setEnabled(true);
+Integer id = getIntent().getIntExtra("idPaciente", 0);
+        paciente = PacienteDAO.getPacienteById(this, id);
+        editNome.setText(paciente.getNome());
+        if(paciente.getSexo().equals(radioButtonMasculino.getText().toString())){
+            radioButtonMasculino.setText(paciente.getSexo());
+        }else {
+            radioButtonFeminino.setText(paciente.getSexo());
         }
-        adapter = new ArrayAdapter(this, android.R.layout.simple_expandable_list_item_1, listaPacientes);
-        lvPacientes.setAdapter(adapter);
+        if(paciente.getModalidade().equals(checkBoxPresencial.getText().toString())){
+            checkBoxPresencial.setText(paciente.getModalidade());
+        }else{
+            checkBoxOnline.setText(paciente.getModalidade2());
+        }
+        String[] horarios = getResources().getStringArray(R.array.strHorarios);
+        for(int i = 0; i < horarios.length; i++){
+            if(paciente.getHorario().equals(horarios[i])){
+                spinnerHorarios.setSelection(i);
+                break;
+            }
+
+        }
     }
